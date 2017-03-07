@@ -11,6 +11,16 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    'defaultRoute'=>'site/index',
+    'modules' => [
+        'user' => [
+            'class' => 'frontend\modules\user\User',
+        ],
+
+        'touch' => [
+            'class' => 'frontend\modules\touch\Touch',
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
@@ -40,7 +50,6 @@ return [
 
         	'enablePrettyUrl' => true,
         	'showScriptName' => false,
-       		'suffix' => '.html',
         	'rules' => [
             		'login' => '/site/login',
            		'signup' => '/site/signup',
@@ -49,6 +58,7 @@ return [
             		'about' => '/site/about',
        		 ]
     	],
+
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,

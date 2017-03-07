@@ -1,6 +1,8 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\User;
+use frontend\components\SendTemplateSMS;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -21,6 +23,7 @@ class SiteController extends Controller
     /**
      * @inheritdoc
      */
+
     public function behaviors()
     {
         return [
@@ -72,7 +75,94 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $detect = new \Mobile_Detect();
+        if($detect->isMobile()||$detect->isTablet()){
+            return $this->redirect(["touch/default/index"]);
+        }
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->request->post())) {
+            if ($user = $model->signup()) {
+                if (Yii::$app->getUser()->login($user)) {
+                    return $this->goHome();
+                }
+            }
+        }
+
+        return $this->render('index', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionCctv(){
+
+        $this->layout = false;
+        return $this->render("cctv");
+    }
+
+    public function actionCheckMobileExists(){
+
+        $mobile = isset($_POST['mobile'])?$_POST['mobile']:null;
+        if(!empty($mobile)){
+
+            $user = User::findByCellphone($mobile);
+            if($user){
+                $data = array('error_code'=>201,'error_msg'=>"该手机号已经注册,请更换手机号");
+            }else{
+                $data = array('error_code'=>0,'error_msg'=>"该手机号可以注册");
+            }
+        }else{
+            $data = array('error_code'=>203,'error_msg'=>"手机号不存在");
+        }
+
+        echo json_encode($data);
+
+    }
+
+    public function actionSendCode(){
+
+        $session = Yii::$app->session;
+        if(!$session->isActive){
+            $session->open();
+        }
+
+        $mobile = isset($_POST['mobile'])?$_POST['mobile']:null;
+        if(!empty($mobile)){
+            /*产生随机验证码*/
+            $code = mt_rand(1000,9999);
+            $send = SendTemplateSMS::send($mobile,array($code,'10'),"157193");
+            if($send->statusCode==0){
+                $session->set('signup_mobile_number',$mobile);
+                $session->set('signup_verification_code',$code);
+            }
+            $data = array('statusCode'=>0,'statusMsg'=>'短信发送成功，验证码10分钟内有效,请注意查看手机短信。如果未收到短信，请在60秒后重试！');
+        }else{
+            $data = array('statusCode'=>203,'statusMsg'=>"手机号不存在");
+        }
+
+        echo json_encode($data);
+    }
+
+    public function actionVerificationMobileCode(){
+
+        $session = Yii::$app->session;
+        if(!$session->isActive){
+            $session->open();
+        }
+
+        $mobile = $session->get("signup_mobile_number");
+        $code = $session->get("signup_verification_code");
+
+        if($mobile==$_POST['mobile']&&$code==$_POST['code']){
+            $data = array('statusCode'=>0,'statusMsg'=>"验证成功");
+        }elseif($mobile!=$_POST['mobile']){
+            $data = array('statusCode'=>204,'statusMsg'=>"手机号于验证码不匹配");
+        }elseif($code!=$_POST['code']){
+            $data = array('statusCode'=>205,'statusMsg'=>"验证码错误");
+        }else{
+            $data = array('statusCode'=>206,'statusMsg'=>"系统故障请及时联系客服");
+        }
+
+        echo json_encode($data);
     }
 
     /**
@@ -162,6 +252,7 @@ class SiteController extends Controller
         ]);
     }
 
+
     /**
      * Requests password reset.
      *
@@ -210,4 +301,7 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
+
+
 }

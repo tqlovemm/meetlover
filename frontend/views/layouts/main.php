@@ -11,7 +11,28 @@ use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
 AppAsset::register($this);
+$this->registerCss("
+.navbar-brand{height:80px;padding:5px 15px;}
+nav > .container-fluid{padding:0 80px;}
+.wrap > .container-fluid {
+    padding: 70px 80px 20px;
+}
+nav a {
+    color: gray;
+    font-weight:bold;
+    text-decoration: none;
+}
+nav .active a{color:#ff6b48;}
+@media (min-width: 768px){
+    .navbar-nav > li > a {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+}
+
+");
 ?>
+
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
@@ -28,18 +49,19 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'My Company',
+        'brandLabel' => '<img class="img-responsive" alt="Brand" src="/images/logo.png">',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'navbar navbar-fixed-top',
+            'style'=>'background-color:rgba(255, 255, 255, 0.9);',
         ],
     ]);
     $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
+        ['label' => '主页', 'url' => ['/site/index']],
+        ['label' => '关于我们', 'url' => ['/site/about']],
+        ['label' => '联系我们', 'url' => ['/site/contact']],
     ];
-    if (Yii::$app->user->isGuest) {
+ /*   if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
@@ -51,7 +73,7 @@ AppAsset::register($this);
             )
             . Html::endForm()
             . '</li>';
-    }
+    }*/
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems,
@@ -59,7 +81,7 @@ AppAsset::register($this);
     NavBar::end();
     ?>
 
-    <div class="container">
+    <div class="container-fluid">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
@@ -70,7 +92,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; MeetLover <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
