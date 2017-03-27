@@ -47,9 +47,9 @@
         });
     </script>
     <img class="img-responsive" src="/images/touch/home/1real.png">
-    <img class="img-responsive" src="/images/touch/home/2pipei.png">
+    <img class="img-responsive" src="/images/touch/home/166742106568988594.png">
     <img class="img-responsive" src="/images/touch/home/3kefu.png">
-    <img class="img-responsive" src="/images/touch/home/5touxiang.png">
+    <img class="img-responsive" src="/images/touch/home/540294840207097157.png">
     <div class="body-content" style="width: 100%;height:450px;padding-top:14%;background-image: url('/images/touch/home/ditu.png');background-repeat: no-repeat;background-size: contain;background-position: center;">
         <div style="width: 100%;margin:0 auto;padding:20px;background-color: rgba(221, 221, 221, 0.53);">
             <?=$this->render('@app/views/site/_signupForm',['model'=>$model]) ?>
