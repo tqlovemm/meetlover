@@ -127,7 +127,7 @@ $this->registerCss("
             if(exists_result) {
                 var send = doPostBack(site + 'send-code', {'mobile': mobile});
                 if(send){
-                    addCookie('meet_lover_login', 10, 10);//添加cookie记录,有效时间60s
+                    addCookie('meet_lover_login', 60, 60);//添加cookie记录,有效时间60s
                     settime(obj);//开始倒计时
                 }
             }
