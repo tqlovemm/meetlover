@@ -78,7 +78,7 @@ $this->registerCss("
                     'class'=>'weui_select',
                 ],
             ])->dropDownList($constellation,['prompt'=>'请选择'])->label(false);?>
-            <?= $form->field($profile, 'native_place', [
+            <?= $form->field($profile, 'native_country', [
                 'template' => '<div class="weui_cell weui_cell_select weui_select_after">
                     <div class="weui_cell_hd">
                         <label for="" class="weui_label">籍贯</label>
