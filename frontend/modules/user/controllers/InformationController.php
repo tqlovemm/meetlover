@@ -127,20 +127,12 @@ class InformationController extends Controller
         return $this->render('upload',['model'=>$model]);
     }
 
-    public function actionAjaxImageToBase64(){
-        $url = $_POST['url'];
-        $xmldata = file_get_contents($url);
-        $img = 'data:image/jpeg;base64,'.base64_encode($xmldata);
-        echo json_encode($img);
-    }
-
-
       public function actionDeleteImg($id){
 
           $qn = new QiniuUploader('files',Yii::$app->params['qnak1'],Yii::$app->params['qnsk1']);
           $model = UserImages::findOne($id);
           if($model->delete()){
-              $ret = $qn->delete('test',$model->img_path);
+              $ret = $qn->delete('meetlover',$model->img_path);
               return $ret;
           }
       }
@@ -150,7 +142,7 @@ class InformationController extends Controller
      */
     public function actionUploadImage(){
 
-        $pre_url = "http://omu5j530t.bkt.clouddn.com/";
+        $pre_url = Yii::$app->params['meetlover'];
         $url = $_FILES;$html = '';
         $qn = new QiniuUploader('files',Yii::$app->params['qnak1'],Yii::$app->params['qnsk1']);
         $mkdir = date('Y').'/'.date('m').'/'.date('d').'/'.Yii::$app->user->id;
@@ -164,7 +156,7 @@ class InformationController extends Controller
                 break;
             }
 
-            $qiniu = $qn->upload_multi('test',"meet_lover/user_images/$mkdir",$img);
+            $qiniu = $qn->upload_multi('meetlover',"meet_lover/user_images/$mkdir",$img);
             $_model = clone $model;
             $_model->img_path = $qiniu['key'];
 
