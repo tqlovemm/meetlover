@@ -99,7 +99,7 @@ $this->registerCss("
     window.onload=function(){
 
         $("#submit_signup").click(function () {
-            var site = 'http://localhost:84/site/';
+            var site = 'http://meetlover1314.com/site/';
             var mobile = $("#signupform-cellphone").val();
             var code = $("#signupform-sms_code").val();
             var send = doPostBack(site + 'verification-mobile-code', {'mobile': mobile,'code':code});
