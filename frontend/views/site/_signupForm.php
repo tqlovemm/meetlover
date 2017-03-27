@@ -12,7 +12,7 @@ $this->registerCss("
     .form-signup input[type='password'] {margin-bottom: 10px;border-top-left-radius: 0;border-top-right-radius: 0;}
     .field-signupform-smscode{width:60%;float:left;margin-bottom:0;}
     .field-signupform-sms_code p{margin-bottom:0;}
-    #second{float:left;width:30%;font-size:12px;}
+    #second{float:left;width:30%;font-size:12px;cursor: pointer}
     .field-signupform-sms_code{width:70%;float:left;margin-bottom:0;}
     .input-group input,.form-group input,.input-group-addon{border:none;background-color:rgba(13, 13, 13, 0.7);color:#fff;border-radius:0;height:44px;}
     #signupform-sms_code{border-right:1px solid #5f5f5f;}
