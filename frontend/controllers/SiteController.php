@@ -77,13 +77,13 @@ class SiteController extends Controller
     {
         $detect = new \Mobile_Detect();
         if($detect->isMobile()||$detect->isTablet()){
-            return $this->redirect(["touch/default"]);
+            return $this->redirect(["/touch/default"]);
         }
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
-                    return $this->redirect(['user/information']);
+                    return $this->redirect(['/user/information']);
                 }
             }
         }
@@ -91,13 +91,6 @@ class SiteController extends Controller
         return $this->render('index', [
             'model' => $model,
         ]);
-    }
-
-    public function actionCctv(){
-
-        //$qn = new QiniuUploader('photoimg',Yii::$app->params['qnak1'],Yii::$app->params['qnsk1']);
-        //return var_dump($qn->watermark_img('http://on5kb4q0u.bkt.clouddn.com/meetlover/user/files/01e79e569e380f6ac72537000766ca.jpg'));
-        return $this->render('upload');
     }
 
     public function actionCheckMobileExists(){
@@ -208,7 +201,7 @@ class SiteController extends Controller
     {
         $detect = new \Mobile_Detect();
         if($detect->isMobile()||$detect->isTablet()){
-            return $this->redirect(["touch/default/contact"]);
+            return $this->redirect(["/touch/default/contact"]);
         }
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
@@ -235,7 +228,7 @@ class SiteController extends Controller
     {
         $detect = new \Mobile_Detect();
         if($detect->isMobile()||$detect->isTablet()){
-            return $this->redirect(["touch/default/about"]);
+            return $this->redirect(["/touch/default/about"]);
         }
         return $this->render('about');
     }
@@ -251,8 +244,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
-                    //return $this->goHome();
-                    return $this->redirect(['user/information']);
+                    return $this->goHome();
                 }
             }
         }
