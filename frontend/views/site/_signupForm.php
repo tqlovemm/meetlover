@@ -1,7 +1,27 @@
 <?php
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+$this->registerCss("
 
+    .form-signup {padding: 15px;margin: 0 auto;}
+    .form-signup .form-signup-heading,.form-signup .checkbox {margin-bottom: 10px;}
+    .form-signup .checkbox {font-weight: normal;}
+    .form-signup .form-control {position: relative;height: auto;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding: 10px;font-size: 16px;}
+    .form-signup .form-control:focus {z-index: 2;}
+    .form-signup input[type='email'] {margin-bottom: -1px;border-bottom-right-radius: 0;border-bottom-left-radius: 0;}
+    .form-signup input[type='password'] {margin-bottom: 10px;border-top-left-radius: 0;border-top-right-radius: 0;}
+    .field-signupform-smscode{width:60%;float:left;margin-bottom:0;}
+    .field-signupform-sms_code p{margin-bottom:0;}
+    #second{float:left;width:30%;font-size:12px;}
+    .field-signupform-sms_code{width:70%;float:left;margin-bottom:0;}
+    .input-group input,.form-group input,.input-group-addon{border:none;background-color:rgba(13, 13, 13, 0.7);color:#fff;border-radius:0;height:44px;}
+    #signupform-sms_code{border-right:1px solid #5f5f5f;}
+    .btn{padding:7px 12px;}
+    #second.btn:hover{color:#F5C354;}
+    .input-group-addon{font-size:18px;}
+    .has-error .input-group-addon{background-color:rgba(13, 13, 13, 0.7);}
+
+");
 ?>
 <div class="row">
     <div class="col-lg-12">
@@ -34,7 +54,7 @@ use yii\bootstrap\ActiveForm;
                 ],
             ])->passwordInput()->label(false);?>
         </div>
-        <!--   <p>注册即视为同意<a style='color:red;' href='/attention/disclaimers'>《用户使用协议》</a></p>-->
+        <!--<p>注册即视为同意<a style='color:red;' href='/attention/disclaimers'>《用户使用协议》</a></p>-->
         <div class="form-group">
             <?= Html::submitButton('注册', ['class' => 'btn btn-primary','id'=>'submit_signup', 'style'=>'border-color:#F5C354;background-color:#F5C354;width:100%;padding: 5px 0;font-size:20px;','name' => 'login-button']) ?>
         </div>

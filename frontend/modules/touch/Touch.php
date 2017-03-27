@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\module\touch;
+namespace frontend\modules\touch;
 
 /**
  * touch module definition class
@@ -10,7 +10,7 @@ class Touch extends \yii\base\Module
     /**
      * @inheritdoc
      */
-    public $controllerNamespace = 'frontend\module\touch\controllers';
+    public $controllerNamespace = 'frontend\modules\touch\controllers';
 
     /**
      * @inheritdoc

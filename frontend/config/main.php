@@ -52,10 +52,13 @@ return [
         	'showScriptName' => false,
         	'rules' => [
             		'login' => '/site/login',
-           		'signup' => '/site/signup',
-			'contact'=>'/site/contact',
-			'/'=>'/site/index',
+                    'signup' => '/site/signup',
+			        'contact'=>'/site/contact',
+			        '/'=>'/site/index',
             		'about' => '/site/about',
+            		'm_about' => '/touch/default/about',
+            		'm_contact' => '/touch/default/contact',
+            		'm_home' => '/touch/default',
        		 ]
     	],
 

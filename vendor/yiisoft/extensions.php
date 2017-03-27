@@ -3,6 +3,15 @@
 $vendorDir = dirname(__DIR__);
 
 return array (
+   'yiisoft/yii2-webuploader' =>
+    array (
+        'name' => 'yiisoft/yii2-webuploader',
+        'version' => '9999999-dev',
+        'alias' =>
+        array (
+          '@yii/webuploader' => $vendorDir . '/yiisoft/yii2-webuploader',
+        ),
+    ),
   'yiisoft/yii2-swiftmailer' => 
   array (
     'name' => 'yiisoft/yii2-swiftmailer',

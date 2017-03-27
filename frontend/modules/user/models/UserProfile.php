@@ -11,19 +11,20 @@ use Yii;
  * @property integer $age
  * @property integer $weight
  * @property integer $height
- * @property string $constellation
+ * @property integer $constellation
  * @property string $native_place
  * @property string $job
- * @property string $education
+ * @property integer $education
  * @property integer $annual_salary
  * @property integer $somke
  * @property integer $drink
  * @property integer $only_child
  * @property integer $marry
- * @property string $hope_marry_time
+ * @property integer $hope_marry_time
  * @property string $say_to_him
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $status
  *
  * @property User $user
  */
@@ -44,11 +45,10 @@ class UserProfile extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'age', 'weight', 'height', 'native_place', 'marry'], 'required'],
-            [['user_id', 'age', 'weight', 'height', 'annual_salary', 'somke', 'drink', 'only_child', 'marry', 'created_at', 'updated_at'], 'integer'],
+            [['user_id','constellation',  'age', 'weight','status','education', 'hope_marry_time', 'height', 'annual_salary', 'somke', 'drink', 'only_child', 'marry', 'created_at', 'updated_at'], 'integer'],
             [['say_to_him'], 'string'],
-            [['constellation', 'native_place'], 'string', 'max' => 32],
+            [['native_place'], 'string', 'max' => 32],
             [['job'], 'string', 'max' => 64],
-            [['education', 'hope_marry_time'], 'string', 'max' => 16],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -76,6 +76,7 @@ class UserProfile extends \yii\db\ActiveRecord
             'say_to_him' => 'Say To Him',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'status' => 'Status',
         ];
     }
 
@@ -85,9 +86,11 @@ class UserProfile extends \yii\db\ActiveRecord
             if ($this->isNewRecord) {
                 $this->created_at = time();
                 $this->updated_at = time();
+                $this->user_id = Yii::$app->user->id;
             }else{
                 $this->updated_at = time();
             }
+            $this->status = 10;
             return true;
         } else {
             return false;
