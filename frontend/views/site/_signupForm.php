@@ -120,7 +120,7 @@ $this->registerCss("
     };
 
     function sendCode(obj){
-        var site = 'http://localhost:84/site/';
+        var site = 'http://meetlover1314.com/site/';
         var mobile = $("#signupform-cellphone").val();    //检查手机是否合法
         if(isPhoneNum(mobile)){
             var exists_result = dbCheckMobileExists(site+'check-mobile-exists',{"mobile":mobile});
