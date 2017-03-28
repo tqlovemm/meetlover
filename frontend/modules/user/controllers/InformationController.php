@@ -2,6 +2,7 @@
 
 namespace frontend\modules\user\controllers;
 
+use common\models\City;
 use common\Qiniu\QiniuUploader;
 use frontend\modules\user\models\UserImages;
 use Yii;
@@ -80,7 +81,7 @@ class InformationController extends Controller
             'user'=>$user,
             'profile'=>$profile,
             'constellation'=>ArrayHelper::map(Constellation::find()->select('id,constellation')->asArray()->all(),'id','constellation'),
-            'province'=>ArrayHelper::map(Province::find()->select('province')->asArray()->all(),'province','province'),
+            'province'=>ArrayHelper::map(Province::find()->select('provinceID,province')->asArray()->all(),'provinceID','province'),
             'job'=>ArrayHelper::map(JobSorts::find()->select('job')->asArray()->all(),'job','job'),
             'ageChoice'=>ArrayHelper::map(LimitAge::find()->select('id,age')->asArray()->all(),'id','age'),
             'heightChoice'=>ArrayHelper::map(LimitHeight::find()->select('id,height')->asArray()->all(),'id','height'),
@@ -170,6 +171,39 @@ EOF;
         }
 
         return $html;
+    }
+
+    public function actionLists($id)
+    {
+        $localCount = City::find()
+            ->where(['fatherId' => [$id]])
+            ->count();
+        $branches = City::find()
+            ->where(['fatherId' => [$id]])
+            ->all();
+        if ($localCount > 0) {
+            foreach ($branches as $branche) {
+                echo "<option value='" . $branche->cityID . "'>" . $branche->city . "</option>";
+            }
+        } else {
+            echo "<option>-</option>";
+        }
+    }
+    public function actionProvinceLists($id)
+    {
+        $localCount = Province::find()
+            ->where(['fatherId' => [$id]])
+            ->count();
+        $branches = Province::find()
+            ->where(['fatherId' => [$id]])
+            ->all();
+        if ($localCount > 0) {
+            foreach ($branches as $branche) {
+                echo "<option value='" . $branche->provinceID . "'>" . $branche->province . "</option>";
+            }
+        } else {
+            echo "<option>-</option>";
+        }
     }
 
 

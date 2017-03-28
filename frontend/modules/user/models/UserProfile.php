@@ -12,9 +12,9 @@ use Yii;
  * @property integer $weight
  * @property integer $height
  * @property integer $constellation
- * @property string $native_country
- * @property string $native_province
- * @property string $native_city
+ * @property integer $native_country
+ * @property integer $native_province
+ * @property integer $native_city
  * @property string $job
  * @property integer $education
  * @property integer $annual_salary
@@ -47,9 +47,8 @@ class UserProfile extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'age', 'weight', 'height', 'native_place', 'marry'], 'required'],
-            [['user_id','constellation',  'age', 'weight','status','education', 'hope_marry_time', 'height', 'annual_salary', 'somke', 'drink', 'only_child', 'marry', 'created_at', 'updated_at'], 'integer'],
+            [['user_id','constellation','native_country','native_province','native_city',  'age', 'weight','status','education', 'hope_marry_time', 'height', 'annual_salary', 'somke', 'drink', 'only_child', 'marry', 'created_at', 'updated_at'], 'integer'],
             [['say_to_him'], 'string'],
-            [['native_country','native_province','native_city'], 'string', 'max' => 32],
             [['job'], 'string', 'max' => 64],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];

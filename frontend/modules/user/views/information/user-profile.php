@@ -78,17 +78,6 @@ $this->registerCss("
                     'class'=>'weui_select',
                 ],
             ])->dropDownList($constellation,['prompt'=>'请选择'])->label(false);?>
-            <?= $form->field($profile, 'native_country', [
-                'template' => '<div class="weui_cell weui_cell_select weui_select_after">
-                    <div class="weui_cell_hd">
-                        <label for="" class="weui_label">籍贯</label>
-                    </div>
-                    <div class="weui_cell_bd weui_cell_primary">{input}</div>
-                </div>{error}',
-                'inputOptions' => [
-                    'class'=>'weui_select',
-                ],
-            ])->dropDownList($province,['prompt'=>'请选择'])->label(false);?>
 
             <?= $form->field($profile, 'education', [
                 'template' => '<div class="weui_cell weui_cell_select weui_select_after">
@@ -112,6 +101,49 @@ $this->registerCss("
                     'class'=>'weui_select',
                 ],
             ])->dropDownList($salary,['prompt'=>'请选择'])->label(false);?>
+        </div>
+
+        <div class="weui_cells weui_cells_form">
+            <?= $form->field($profile, 'native_country', [
+                'template' => '<div class="weui_cell weui_cell_select weui_select_after">
+                    <div class="weui_cell_hd">
+                        <label for="" class="weui_label">国家</label>
+                    </div>
+                    <div class="weui_cell_bd weui_cell_primary">{input}</div>
+                </div>{error}',
+                'inputOptions' => [
+                    'class'=>'weui_select',
+                ],
+            ])->dropDownList([10000000=>'中国'])->label(false);?>
+
+            <?= $form->field($profile, 'native_province', [
+                'template' => '<div class="weui_cell weui_cell_select weui_select_after">
+                    <div class="weui_cell_hd">
+                        <label for="" class="weui_label">省份</label>
+                    </div>
+                    <div class="weui_cell_bd weui_cell_primary">{input}</div>
+                </div>{error}',
+                'inputOptions' => [
+                    'class'=>'weui_select',
+                ],
+            ])->dropDownList($province,[
+                'prompt'=>'请选择省份',
+                'onchange'=>'$.post("lists?id='.'"+$(this).val(),function(data){
+                $("select#userprofile-native_city").html(data);
+            });',
+            ])->label(false);?>
+
+            <?= $form->field($profile, 'native_city', [
+                'template' => '<div class="weui_cell weui_cell_select weui_select_after">
+                    <div class="weui_cell_hd">
+                        <label for="" class="weui_label">城市</label>
+                    </div>
+                    <div class="weui_cell_bd weui_cell_primary">{input}</div>
+                </div>{error}',
+                'inputOptions' => [
+                    'class'=>'weui_select',
+                ],
+            ])->dropDownList([],['prompt'=>'请选择城市'])->label(false);?>
         </div>
 
         <div class="weui_cells weui_cells_form">
