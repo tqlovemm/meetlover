@@ -98,7 +98,7 @@ nav .active a{color:#ff6b48;}
     <div class="container">
         <p class="pull-left">&copy; MeetLover <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= "苏州三十一天" ?></p>
+        <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>
 
