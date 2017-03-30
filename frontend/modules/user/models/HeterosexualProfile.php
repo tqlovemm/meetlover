@@ -13,7 +13,7 @@ use Yii;
  * @property string $heterosexual_age
  * @property integer $heterosexual_education
  * @property integer $heterosexual_annual_income
- * @property string $heterosexual_native_place
+ * @property integer $heterosexual_native_place
  * @property integer $heterosexual_only_child
  * @property integer $heterosexual_smoke
  * @property integer $heterosexual_drink
@@ -39,11 +39,11 @@ class HeterosexualProfile extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['heterosexual_height', 'heterosexual_weight', 'heterosexual_age', 'heterosexual_native_place',
+            [['heterosexual_height','heterosexual_native_place', 'heterosexual_weight', 'heterosexual_age', 'heterosexual_native_place',
                 'heterosexual_annual_income','heterosexual_education', 'heterosexual_only_child',
                 'heterosexual_smoke', 'heterosexual_drink'], 'required','message'=>"{attribute}不可为空"],
             [['user_id',  'heterosexual_annual_income','heterosexual_education', 'heterosexual_only_child', 'heterosexual_smoke','status', 'heterosexual_drink', 'created_at', 'updated_at'], 'integer'],
-            [['heterosexual_native_place','heterosexual_height', 'heterosexual_weight', 'heterosexual_age'], 'string', 'max' => 16],
+            [['heterosexual_height', 'heterosexual_weight', 'heterosexual_age'], 'string', 'max' => 16],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }

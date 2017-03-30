@@ -52,22 +52,7 @@ class QiniuUploader
             return $ret;
         }
     }
-    public function upload_water($bucket,$key){
 
-        $file_name = $_FILES[$this->form_name]['name'];
-        $filePath= $_FILES[$this->form_name]['tmp_name'];
-        $watermark = new WaterMark();
-        $watermark->imgMark($filePath,$filePath);
-        $upToken = $this->Auth()->uploadToken($bucket);
-        $uploadMgr = new UploadManager();
-        list($ret, $err) = $uploadMgr->putFile($upToken, $key.'_'.md5($file_name), $filePath);
-        if ($err !== null) {
-            var_dump($err);
-        } else {
-            return $ret;
-        }
-
-    }
     public function upload_app($bucket,$key,$filePath){
 
         $upToken = $this->Auth()->uploadToken($bucket);
@@ -82,7 +67,7 @@ class QiniuUploader
     }
     public function delete($bucket,$key){
         $deleteImg = new BucketManager($this->Auth());
-        $deleteImg->delete($bucket,$key);
+        return $deleteImg->delete($bucket,$key);
     }
 
     public function thumb_img($url){

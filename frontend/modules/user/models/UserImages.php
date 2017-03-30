@@ -3,6 +3,7 @@
 namespace frontend\modules\user\models;
 
 use Yii;
+use yii\web\ForbiddenHttpException;
 
 /**
  * This is the model class for table "meet_lover_user_images".
@@ -77,5 +78,27 @@ class UserImages extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    public function getAvatar(){
+        $model = self::findOne(['type'=>2]);
+        if(!empty($model)){
+            $avatar = $model->img_path;
+        }elseif(!empty($this->img_path)){
+            $avatar = $this->img_path;
+        }else{
+            $avatar = "images/guest.png";
+        }
+        return $avatar;
+    }
+
+
+    public function deleteImg(){
+
+        if( $this->user_id == Yii::$app->user->id){
+            self::delete();
+        }else{
+            throw new ForbiddenHttpException('禁止操作');
+        }
     }
 }

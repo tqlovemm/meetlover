@@ -1,53 +1,15 @@
 <?php
 $this->title = "图片上传";
 $this->registerCss("
-
-        ul, ol{margin-bottom:0;}
-        
-        .z_mask {
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, .5);
-            
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 999;
-            display: none;
-        }
-        
-        .z_alert {
-            width: 200px;
-            height: 100px;
-            border-radius: 2px;
-            background: #fff;
-            font-size: 14px;
-            text-align: center;
-            position: absolute;
-            left: 50%;
-            margin-left:-100px;
-            top: 50%;
-            margin-top: -50px;
-        }
-        
-        .z_alert div:nth-child(1) {
-            line-height: 50px
-        }
-        
-        .z_alert div:nth-child(2) span {
-            display: inline-block;
-            width: 50%;
-            height: 50px;
-            line-height: 50px;
-            float: left;
-            border-top: 1px solid #ddd;
-        }
-        
-        .z_cancel {
-            border-right: 1px solid #ddd;
-        }
+    ul, ol{margin-bottom:0;}
+    #header .orgBg{background: #000 !important;}
+    .z_mask {width: 100%;height: 100%;background: rgba(0, 0, 0, .5);position: fixed;top: 0;left: 0;z-index: 999;display: none;}
+    .z_alert {width: 200px;height: 100px;border-radius: 2px;background: #fff;font-size: 14px;text-align: center;position: absolute;left: 50%;margin-left:-100px;top: 50%;margin-top: -50px;}
+    .z_alert div:nth-child(1) {line-height: 50px}
+    .z_alert div:nth-child(2) span {display: inline-block;width: 50%;height: 50px;line-height: 50px;float: left;border-top: 1px solid #ddd;}
+    .z_cancel {border-right: 1px solid #ddd;}
+    #function:after{content:'看图';color:#fff;}
 ");
-$pre_url = "http://omu5j530t.bkt.clouddn.com/";
 ?>
 <link rel="stylesheet" href="/weui/dist/style/weui.min.css"/>
 <div class="weui_cells weui_cells_form">
@@ -83,7 +45,9 @@ $pre_url = "http://omu5j530t.bkt.clouddn.com/";
     </div>
 </div>
 <script>
-
+    $('#function').click(function () {
+        window.location.href = "check-photos";
+    });
     function doUpload() {
         var formData = new FormData($( "#uploadForm" )[0]);
         $.ajax({

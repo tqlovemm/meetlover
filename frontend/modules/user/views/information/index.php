@@ -7,12 +7,9 @@ $this->registerCss("
         .wrap > .container-fluid{padding:10px 0 0 !important;}
         .user-information-index{}
     }
-   
 ");
-
 ?>
 <link href="/css/profile.css" rel="stylesheet">
-
 <div class="user-information-index">
     <section id="stepsBox">
         <section id="genderBox" class="genderBox">
@@ -42,7 +39,6 @@ $this->registerCss("
 </div>
 <script>
     function saveSex(con) {
-
-        window.location.href = "/user/information/save-sex?sex="+con;
+        window.location.href = "/user/information?sex="+con;
     }
 </script>

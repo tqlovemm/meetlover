@@ -15,7 +15,7 @@ $this->registerCss("
     <div class="weui_opr_area">
         <p class="weui_btn_area">
             <a href="<?=\yii\helpers\Url::toRoute(['upload'])?>" class="weui_btn weui_btn_primary">上传个人生活照</a>
-            <a href="javascript:;" class="weui_btn weui_btn_default">取消</a>
+            <a href="/" class="weui_btn weui_btn_default">取消</a>
         </p>
     </div>
 <!--    <div class="weui_extra_area">

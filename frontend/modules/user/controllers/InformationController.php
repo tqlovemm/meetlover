@@ -2,10 +2,10 @@
 
 namespace frontend\modules\user\controllers;
 
+use Yii;
 use common\models\City;
 use common\Qiniu\QiniuUploader;
 use frontend\modules\user\models\UserImages;
-use Yii;
 use common\models\Constellation;
 use common\models\Education;
 use common\models\JobSorts;
@@ -19,22 +19,27 @@ use frontend\modules\user\models\LimitMarry;
 use frontend\modules\user\models\LimitWeight;
 use frontend\modules\user\models\UserProfile;
 use frontend\modules\user\models\User;
+use yii\base\Exception;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 class InformationController extends Controller
 {
     public $layout = "/basic";
+
     public function behaviors()
     {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index','save-sex','profile','heterosexual-profile','upload'],
                 'rules' => [
                     [
-                        'actions' => ['index','save-sex','profile','heterosexual-profile','upload'],
+                        'actions' => [
+                            'index','profile','heterosexual-profile','upload','check-photos','success','upload-image','set-avatar','get-avatar',
+                            'lists','province-lists','delete-img',
+                        ],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -43,22 +48,25 @@ class InformationController extends Controller
         ];
     }
 
-    public function actionIndex(){
-
-        return $this->render("index");
-    }
-
-    public function actionSaveSex($sex){
+    public function actionIndex($sex=''){
 
         $user_id = Yii::$app->user->id;
         $model = User::findOne($user_id);
-        if(!empty($model)){
-            $model->sex = $sex;
-            if($model->update()){
-                return $this->redirect('profile');
-            }
-            return var_dump($model->errors);
+        if($model->sex!=0){
+            return $this->redirect('information/profile');
         }
+        if($sex==''){
+            return $this->render("index");
+        }else{
+            if(!empty($model)){
+                $model->sex = $sex;
+                if($model->update()){
+                    return $this->redirect('information/profile');
+                }
+                return var_dump($model->errors);
+            }
+        }
+
     }
 
     public function actionProfile(){
@@ -110,7 +118,7 @@ class InformationController extends Controller
         } else {
             return $this->render('heterosexual-profile',[
                 'model'=>$model,
-                'province'=>ArrayHelper::map(Province::find()->select('province')->all(),'province','province'),
+                'province'=>ArrayHelper::map(Province::find()->select('provinceID,province')->all(),'provinceID','province'),
                 'education'=>ArrayHelper::map(Education::find()->select('id,education')->all(),'id','education'),
                 'salary'=>ArrayHelper::map(Salary::find()->select('id,salary')->all(),'id','salary'),
                 'sd'=>ArrayHelper::map(Smokeanddrink::find()->select('id,smokeanddrink')->all(),'id','smokeanddrink'),
@@ -124,19 +132,24 @@ class InformationController extends Controller
     }
 
     public function actionUpload(){
-        $model = UserImages::find()->where(['user_id'=>Yii::$app->user->id])->asArray()->all();
-        return $this->render('upload',['model'=>$model]);
+
+        $count = UserImages::find()->where(['user_id'=>Yii::$app->user->id])->count();
+        if($count>=9){
+            return $this->redirect("check-photos");
+        }
+        return $this->render('upload');
     }
 
-      public function actionDeleteImg($id){
-
-          $qn = new QiniuUploader('files',Yii::$app->params['qnak1'],Yii::$app->params['qnsk1']);
-          $model = UserImages::findOne($id);
-          if($model->delete()){
-              $ret = $qn->delete('meetlover',$model->img_path);
-              return $ret;
-          }
-      }
+    public function actionDeleteImg($id){
+        $model = UserImages::findOne($id);
+        if($model->deleteImg()){
+            $qn = new QiniuUploader('files',Yii::$app->params['qnak1'],Yii::$app->params['qnsk1']);
+            $ret = $qn->delete('meetlover',$model->img_path);
+            return var_dump($ret);
+        }else{
+            var_dump($model->errors);
+        }
+    }
 
     /**
      * @return boolean
@@ -173,6 +186,47 @@ EOF;
         return $html;
     }
 
+    public function actionCheckPhotos(){
+
+        $data = UserImages::find()->where(['user_id'=>Yii::$app->user->id])->orderBy('type desc')->addOrderBy('created_at desc');
+        $photos = Yii::$app->tools->Pagination($data);
+        return $this->render('check-photos',[
+            'model' => $photos['result'],
+            'pages' => $photos['pages'],
+        ]);
+    }
+
+    public function actionSetAvatar($id){
+        $userImgModel = UserImages::findOne($id);
+
+            try{
+                if($userImgModel->type!=2){
+                    UserImages::updateAll(['type'=>1],['user_id'=>Yii::$app->user->id]);
+                }
+            }catch (Exception $e){
+                throw new NotFoundHttpException($e->getMessage());
+            }finally{
+                $userImgModel->type = 2;
+                if($userImgModel->update()){
+                    echo "设为头像";
+                }else{
+                    echo json_encode($userImgModel->errors);
+                }
+            }
+
+
+    }
+
+    public function actionGetAvatar(){
+        $pre_url = Yii::$app->params['meetlover'];
+        $model = UserImages::findOne(['user_id'=>Yii::$app->user->id]);
+        if(!empty($model)){
+            echo "<img src='".$pre_url.$model->getAvatar()."'>";
+        }else{
+            echo "<img src='/images/guest.png'>";
+        }
+    }
+
     public function actionLists($id)
     {
         $localCount = City::find()
@@ -205,6 +259,5 @@ EOF;
             echo "<option>-</option>";
         }
     }
-
 
 }
